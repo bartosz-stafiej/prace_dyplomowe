@@ -1,0 +1,46 @@
+
+require:
+  - rubocop-performance
+  - rubocop-rails
+
+AllCops:
+  DisplayCopNames: true
+  ExtraDetails: true
+  NewCops: enable
+  SuggestExtensions: false
+  TargetRubyVersion: 3.0.0
+  Exclude:
+    - bin/**/*
+    - node_modules/**/*
+    - vendor/**/*
+    - config/initializers/*
+
+Metrics/BlockLength:
+  Exclude:
+    - config/environments/development.rb
+    - config/environments/production.rb
+    - spec/requests/api/v1/**/*
+    - spec/swagger_helper.rb
+    - spec/models/*
+
+
+Metrics/MethodLength:
+  Exclude:
+    - db/migrate/**/*
+
+Style/Documentation:
+  Enabled: false
+
+Style/HashSyntax:
+  EnforcedStyle: ruby19
+
+Style/RescueStandardError:
+  EnforcedStyle: implicit
+
+Rails/BulkChangeTable:
+  Exclude:
+  - db/migrate/**/*
+
+Rails/FilePath:
+  Exclude:
+  - config/environments/*
