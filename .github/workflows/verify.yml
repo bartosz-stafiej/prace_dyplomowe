@@ -1,95 +1,61 @@
-# Put this in the file: .github/workflows/verify.yml
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+# This workflow will download a prebuilt Ruby version, install dependencies and run tests with Rake
+# For more information see: https://github.com/marketplace/actions/setup-ruby-jruby-and-truffleruby
 
-name: Verify
-on: [push]
+name: Checks
+
+env:
+  RAILS_ENV: test
+  PGHOST: 127.0.0.1
+  PGUSER: postgres
+  PGDATABASE: slide_me_test
+  PGPASSWORD: postgres
+
+on:
+  push:
+    branches: [ master, staging ]
+  pull_request:
+    branches: [ master, staging ]
 
 jobs:
-  linters:
-    name: Linters
+  build:
+    name: Run Checks
+
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+    strategy:
+      matrix:
+        ruby-version: ['3.0']
 
-      - name: Setup Ruby and install gems
-        uses: ruby/setup-ruby@v1
-        with:
-          bundler-cache: true
-
-      - name: Setup Node
-        uses: actions/setup-node@v1
-        with:
-          node-version: 10.13.0
-      - name: Find yarn cache location
-        id: yarn-cache
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-      - name: JS package cache
-        uses: actions/cache@v1
-        with:
-          path: ${{ steps.yarn-cache.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
-      - name: Install packages
-        run: |
-          yarn install --pure-lockfile
-
-      - name: Run linters
-        run: |
-          bin/rubocop --parallel
-          bin/stylelint
-          bin/prettier
-          bin/eslint
-      - name: Run security checks
-        run: |
-          bin/bundler-audit --update
-          bin/brakeman -q -w2
-
-  tests:
-    name: Tests
-    runs-on: ubuntu-latest
     services:
       postgres:
-        image: postgres:11
+        image: postgres:13
         env:
-          POSTGRES_DB: prace_dyplomowe_test
-          POSTGRES_PASSWORD: ""
-        ports: ["5432:5432"]
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+        - 5432:5432
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Setup Ruby and install gems
-        uses: ruby/setup-ruby@v1
-        with:
-          bundler-cache: true
-
-      - name: Setup Node
-        uses: actions/setup-node@v1
-        with:
-          node-version: 10.13.0
-      - name: Find yarn cache location
-        id: yarn-cache
-        run: echo "::set-output name=dir::$(yarn cache dir)"
-      - name: JS package cache
-        uses: actions/cache@v1
-        with:
-          path: ${{ steps.yarn-cache.outputs.dir }}
-          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-yarn-
-      - name: Install packages
-        run: |
-          yarn install --pure-lockfile
-
-      - name: Setup test database
-        env:
-          RAILS_ENV: test
-          PGHOST: localhost
-          PGUSER: myapp
-        run: |
-          bin/rails db:setup
-
-      - name: Run test
-        run: bundle exec rspec
+    - uses: actions/checkout@v2
+    - name: Set up Ruby
+      uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: 3.0.0
+        bundler-cache: true
+    - name: Run linter
+      run: bundle exec rubocop           
+    - name: Setup database
+      run: bundle exec rails db:test:prepare
+    - name: Run specs
+      run: |
+        # export DISPLAY=:99
+        # chromedriver --url-base=/wd/hub &
+        # sudo Xvfb -ac :99 -screen 0 1280x1024x24 > /dev/null 2>&1 &
+        bundle exec rspec --exclude-pattern 'spec/system/**/*_spec.rb'
