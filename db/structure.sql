@@ -70,7 +70,8 @@ CREATE TABLE public.employees (
     reset_password_sent_at timestamp without time zone,
     remember_created_at timestamp without time zone,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    role integer DEFAULT 1 NOT NULL
 );
 
 
@@ -129,27 +130,23 @@ ALTER SEQUENCE public.graduation_works_id_seq OWNED BY public.graduation_works.i
 
 
 --
--- Name: models; Type: TABLE; Schema: public; Owner: -
+-- Name: key_words; Type: TABLE; Schema: public; Owner: -
 --
 
-CREATE TABLE public.models (
+CREATE TABLE public.key_words (
     id bigint NOT NULL,
-    email character varying DEFAULT ''::character varying NOT NULL,
-    encrypted_password character varying DEFAULT ''::character varying NOT NULL,
-    reset_password_token character varying,
-    reset_password_sent_at timestamp without time zone,
-    remember_created_at timestamp without time zone,
-    "User" character varying,
+    key_word character varying NOT NULL,
+    graduation_work_id bigint NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL
 );
 
 
 --
--- Name: models_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+-- Name: key_words_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
-CREATE SEQUENCE public.models_id_seq
+CREATE SEQUENCE public.key_words_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -158,10 +155,45 @@ CREATE SEQUENCE public.models_id_seq
 
 
 --
--- Name: models_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+-- Name: key_words_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
-ALTER SEQUENCE public.models_id_seq OWNED BY public.models.id;
+ALTER SEQUENCE public.key_words_id_seq OWNED BY public.key_words.id;
+
+
+--
+-- Name: reviews; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.reviews (
+    id bigint NOT NULL,
+    graduation_work_id bigint NOT NULL,
+    reviewer_id bigint NOT NULL,
+    grade numeric NOT NULL,
+    comment text NOT NULL,
+    date_of_issue timestamp without time zone DEFAULT '2022-01-22 22:35:53.913043'::timestamp without time zone NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
+);
+
+
+--
+-- Name: reviews_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.reviews_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: reviews_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.reviews_id_seq OWNED BY public.reviews.id;
 
 
 --
@@ -251,7 +283,7 @@ CREATE TABLE public.thesis_defenses (
     id bigint NOT NULL,
     defence_address character varying NOT NULL,
     final_grade numeric,
-    date_of_defence timestamp without time zone DEFAULT '2022-01-19 23:17:15.619175'::timestamp without time zone NOT NULL,
+    date_of_defence timestamp without time zone DEFAULT '2022-01-22 16:22:58.933932'::timestamp without time zone NOT NULL,
     evaluator_id bigint NOT NULL,
     author_id bigint NOT NULL,
     graduation_work_id bigint NOT NULL,
@@ -301,10 +333,17 @@ ALTER TABLE ONLY public.graduation_works ALTER COLUMN id SET DEFAULT nextval('pu
 
 
 --
--- Name: models id; Type: DEFAULT; Schema: public; Owner: -
+-- Name: key_words id; Type: DEFAULT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.models ALTER COLUMN id SET DEFAULT nextval('public.models_id_seq'::regclass);
+ALTER TABLE ONLY public.key_words ALTER COLUMN id SET DEFAULT nextval('public.key_words_id_seq'::regclass);
+
+
+--
+-- Name: reviews id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reviews ALTER COLUMN id SET DEFAULT nextval('public.reviews_id_seq'::regclass);
 
 
 --
@@ -361,11 +400,19 @@ ALTER TABLE ONLY public.graduation_works
 
 
 --
--- Name: models models_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: key_words key_words_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-ALTER TABLE ONLY public.models
-    ADD CONSTRAINT models_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY public.key_words
+    ADD CONSTRAINT key_words_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: reviews reviews_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reviews
+    ADD CONSTRAINT reviews_pkey PRIMARY KEY (id);
 
 
 --
@@ -429,17 +476,24 @@ CREATE INDEX index_graduation_works_on_supervisor_id ON public.graduation_works 
 
 
 --
--- Name: index_models_on_email; Type: INDEX; Schema: public; Owner: -
+-- Name: index_key_words_on_graduation_work_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_models_on_email ON public.models USING btree (email);
+CREATE INDEX index_key_words_on_graduation_work_id ON public.key_words USING btree (graduation_work_id);
 
 
 --
--- Name: index_models_on_reset_password_token; Type: INDEX; Schema: public; Owner: -
+-- Name: index_reviews_on_graduation_work_id; Type: INDEX; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_models_on_reset_password_token ON public.models USING btree (reset_password_token);
+CREATE INDEX index_reviews_on_graduation_work_id ON public.reviews USING btree (graduation_work_id);
+
+
+--
+-- Name: index_reviews_on_reviewer_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_reviews_on_reviewer_id ON public.reviews USING btree (reviewer_id);
 
 
 --
@@ -485,11 +539,27 @@ CREATE INDEX index_thesis_defenses_on_graduation_work_id ON public.thesis_defens
 
 
 --
+-- Name: reviews fk_rails_007031d9cb; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reviews
+    ADD CONSTRAINT fk_rails_007031d9cb FOREIGN KEY (reviewer_id) REFERENCES public.employees(id);
+
+
+--
 -- Name: students fk_rails_1d4ff93d0b; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.students
     ADD CONSTRAINT fk_rails_1d4ff93d0b FOREIGN KEY (college_id) REFERENCES public.colleges(id);
+
+
+--
+-- Name: key_words fk_rails_4135c68f2c; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.key_words
+    ADD CONSTRAINT fk_rails_4135c68f2c FOREIGN KEY (graduation_work_id) REFERENCES public.graduation_works(id);
 
 
 --
@@ -517,6 +587,14 @@ ALTER TABLE ONLY public.graduation_works
 
 
 --
+-- Name: reviews fk_rails_ae87274649; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.reviews
+    ADD CONSTRAINT fk_rails_ae87274649 FOREIGN KEY (graduation_work_id) REFERENCES public.graduation_works(id);
+
+
+--
 -- Name: thesis_defenses fk_rails_c3a71e7e4b; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -539,12 +617,14 @@ ALTER TABLE ONLY public.thesis_defenses
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
-('20220119182143'),
 ('20220119183617'),
 ('20220119183719'),
 ('20220119221100'),
 ('20220119223314'),
 ('20220119224221'),
-('20220119230724');
+('20220119230724'),
+('20220122155747'),
+('20220122223040'),
+('20220124153551');
 
 

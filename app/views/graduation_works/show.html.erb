@@ -1,0 +1,120 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+<!------ Include the above in your HEAD tag ---------->
+
+<div class="index-content">
+    <div class="container">
+        <div href="blog-ici.html" class="w-100">
+            <div class="card">
+                <div class="mb-5 d-flex justify-content-between">
+                    <div class="w-50">
+                        <div>
+                            <h4>Topic:</h4>
+                            <p><%= @graduation_work.topic %></p>
+                            <h4>Title:</h4>
+                            <p><%= @graduation_work.title %></p>
+                            <br />
+                            <h4>Date of submission:</h4>
+                            <p><%= @graduation_work.date_of_submission.to_date %></p>
+                            <br />
+                            <h4>Final Grade:</h4>
+                            <% @graduation_work.thesis_defenses.each do |defence| %>
+                                <p><%= 'Autor: ' + defence&.author&.first_name.to_s + ' ' + defence&.author&.last_name.to_s + ', grade: ' + defence&.final_grade.to_s %></p>
+                            <% end %>
+                        </div>
+                    </div>
+                    <div class="w-50">
+                        <h4>Address of defence:</h4>
+                        <% @graduation_work.thesis_defenses.each do |defence| %>
+                            <p><%= defence.defence_address %></p>
+                        <% end %>
+                        <h4>Authors:</h4>
+                        <% @graduation_work.thesis_defenses.each do |defence| %>
+                            <p><%= defence&.author&.first_name + ' ' + defence&.author&.last_name %></p>
+                        <% end %>
+                        <h4>Supervisor:</h4>
+                        <p><%= @graduation_work&.supervisor.academic_degree + ' ' + @graduation_work&.supervisor.first_name + ' ' + @graduation_work&.supervisor.last_name %></p>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-3">
+                <ul class="list list-inline">
+                    <div class="d-flex justify-content-between">
+                        <div class="container">
+                            <% if current_employee && @graduation_work.supervisor_id == current_employee.id && !Review.exists?(graduation_work_id: @graduation_work.id, reviewer_id: current_employee.id) %>
+                                <%= link_to 'Add review', new_graduation_work_review_path(@graduation_work), class: 'nav-link px-2 text-dark' %>
+                            <% end %>
+                        </div>
+                        <div class="container">
+                            <% if current_deans_worker? %>
+                                <%= link_to 'Add thesis defence', new_graduation_work_thesis_defense_path(@graduation_work), class: 'nav-link px-2 text-dark' %>
+                            <% end %>
+                        </div>
+                    </div>
+                    <% unless @reviews.empty? %>
+                        <span class="activity-done">
+                            Reviews:
+                        </span>
+                    <% end %>
+                    <% @reviews.each do |review| %>
+                        <li class="d-flex justify-content-between">
+                            <div class="d-flex flex-row align-items-center"><i class="fa fa-check-circle checkicon"></i>
+                                <div class="ml-2">
+                                    <h6 class="mb-0">Author: <%= review.reviewer.first_name + ' ' + review.reviewer.last_name %></h6>
+                                    <div class="d-flex flex-row mt-1 text-black-50 date-time">
+                                        <div><i class="fa fa-calendar-o"></i><span class="ml-2">Grade: <%= review.grade %></span></div><br />
+                                        <div><i class="fa fa-calendar-o"></i><span class="ml-2">, Comment: <%= review.comment %></span></div><br />
+                                        <div class="ml-3"><i class="fa fa-clock-o"></i><span class="ml-2"><%=  %></span></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row align-items-center">
+                                <div class="d-flex flex-column mr-2">
+                                    <div class="profile-image">
+                                        <% if current_deans_worker? %>
+                                            <div class="d-flex flex-column mr-2">
+                                                <div class="profile-image"><%= button_to 'Update', edit_graduation_work_review_path(@graduation_work, review), class: 'btn btn-primary mr-5', method: :get %></div>
+                                            </div> <i class="fa fa-ellipsis-h"></i>
+                                        <% end %> 
+                                    </div>
+                                </div> <i class="fa fa-ellipsis-h"></i>
+                            </div>
+                        </li>
+                    <% end %><br />
+                    <% unless @thesis_defences.empty? %>
+                        <span class="activity-done">
+                            Thesis defences:
+                        </span>
+                    <% end %>
+                    <% @thesis_defences.each do |td| %>
+                        <li class="d-flex justify-content-between">
+                            <div class="d-flex flex-row align-items-center"><i class="fa fa-check-circle checkicon"></i>
+                                <div class="ml-2">
+                                    <h6 class="mb-0">Author: <%= td.author.first_name + ' ' + td.author.last_name %></h6>
+                                    <div class="d-flex flex-row mt-1 text-black-50 date-time">
+                                        <div><i class="fa fa-calendar-o"></i><span class="ml-2">Final Grade: <%= td.final_grade %></span></div><br />
+                                        <div><i class="fa fa-calendar-o"></i><span class="ml-2">, Evaluator: <%= td.evaluator.first_name + ' ' + td.evaluator.last_name %></span></div><br />
+                                        <div><i class="fa fa-calendar-o"></i><span class="ml-2">, address: <%= td.defence_address %></span></div><br />
+                                        <div class="ml-3"><i class="fa fa-clock-o"></i><span class="ml-2"><%=  %></span></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-row align-items-center">
+                                <div class="d-flex flex-column mr-2">
+                                    <div class="profile-image">
+                                        <% if current_deans_worker? %>
+                                            <div class="d-flex flex-column mr-2">
+                                                <div class="profile-image"><%= button_to 'Update', edit_graduation_work_thesis_defense_path(@graduation_work, td), class: 'btn btn-primary mr-5', method: :get %></div>
+                                            </div> <i class="fa fa-ellipsis-h"></i>
+                                        <% end %> 
+                                    </div>
+                                </div> <i class="fa fa-ellipsis-h"></i>
+                            </div>
+                        </li>
+                    <% end %>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

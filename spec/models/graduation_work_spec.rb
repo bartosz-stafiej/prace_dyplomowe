@@ -28,4 +28,16 @@ describe GraduationWork, type: :model do
       .inverse_of(:graduation_work)
       .dependent(:delete_all)
   }
+
+  it {
+    should have_many(:key_words)
+      .inverse_of(:graduation_work)
+      .dependent(:nullify)
+  }
+
+  it {
+    should have_many(:reviews)
+      .inverse_of(:graduation_work)
+      .dependent(:delete_all)
+  }
 end
