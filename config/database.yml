@@ -82,5 +82,5 @@ test:
 production:
   <<: *default
   database: prace_dyplomowe_production
-  username: prace_dyplomowe
+  username: bartoszstafiej
   password: <%= ENV['PRACE_DYPLOMOWE_DATABASE_PASSWORD'] %>

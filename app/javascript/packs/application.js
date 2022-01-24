@@ -3,6 +3,10 @@
 require("@popperjs/core")
 
 import "bootstrap"
+import 'bootstrap/dist/css/bootstrap.min.css';
+import "@fortawesome/fontawesome-free/js/all";
+import "@fortawesome/fontawesome-free/css/all";
+import 'bootstrap/dist/js/bootstrap.bundle.min';
 
 // Import the specific modules you may need (Modal, Alert, etc)
 import { Tooltip, Popover } from "bootstrap"

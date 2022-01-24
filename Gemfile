@@ -9,6 +9,7 @@ ruby '3.0.0'
 gem 'blueprinter', '~> 0.25.3'
 gem 'bootsnap', '>= 1.4.4', require: false
 gem 'devise'
+gem 'faker'
 gem 'pagy', '~> 4.11'
 gem 'pg', '~> 1.1'
 gem 'puma', '~> 5.0'
@@ -24,7 +25,6 @@ gem 'webpacker', '~> 5.0'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
-  gem 'faker'
   gem 'pry-byebug'
 end
 
