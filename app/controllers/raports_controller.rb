@@ -26,7 +26,7 @@ class RaportsController < ApplicationController
   private
 
   def permited_params
-    params.permit(:grade).to_unsafe_h.reject { |_k, v| v.empty? }
+    params.permit(:grade, :faculty, :date_from, :date_to, :evaluator, :supervisor, :field_of_study, :key_word).to_unsafe_h.reject { |_k, v| v.empty? }
   end
 
   def csv_params

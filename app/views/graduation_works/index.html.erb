@@ -13,7 +13,7 @@
                 <div class="icons">
                     <% if current_deans_worker? %>
                         <a href='/students/me/graduation_works/new' style="text-decoration:none;">
-                            <i class="fa fa-plus"></i>Add graduation work
+                            Add graduation work
                         </a>
                     <% else %>
                         <%== pagy_nav(@pagy) %>
@@ -24,13 +24,13 @@
                 <ul class="list list-inline">
                     <% @graduation_works.each do |gd| %>
                         <li class="d-flex justify-content-between">
-                            <div class="d-flex flex-row align-items-center"><i class="fa fa-check-circle checkicon"></i>
+                            <div class="d-flex flex-row align-items-center">
                                 <div class="ml-2">
                                     <h6 class="mb-0"><%= gd.title %></h6>
                                     <div class="d-flex flex-row mt-1 text-black-50 date-time">
-                                        <div><i class="fa fa-calendar-o"></i><span class="ml-2">Topic: <%= gd.topic %></span></div><br />
-                                        <div><i class="fa fa-calendar-o"></i><span class="ml-2">, Date of submission: <%= gd.date_of_submission.to_date %></span></div><br />
-                                        <div class="ml-3"><i class="fa fa-clock-o"></i><span class="ml-2"><%=  %></span></div>
+                                        <div><span class="ml-2">Topic: <%= gd.topic %></span></div><br />
+                                        <div><span class="ml-2">, Date of submission: <%= gd.date_of_submission.to_date %></span></div><br />
+                                        <div class="ml-3"><span class="ml-2"><%=  %></span></div>
                                     </div>
                                 </div>
                             </div>
@@ -38,11 +38,11 @@
                                 <% if current_deans_worker? %>
                                     <div class="d-flex flex-column mr-2">
                                         <div class="profile-image"><%= button_to 'Update', edit_graduation_work_path(gd), class: 'btn btn-primary mr-5', method: :get %></div>
-                                    </div> <i class="fa fa-ellipsis-h"></i>
+                                    </div> 
                                 <% end %>
                                 <div class="d-flex flex-column mr-2">
                                     <div class="profile-image"><%= button_to 'Details', graduation_work_path(gd), class: 'btn btn-primary', method: :get %></div>
-                                </div> <i class="fa fa-ellipsis-h"></i>
+                                </div>
                             </div>
                         </li>
                     <% end %>
