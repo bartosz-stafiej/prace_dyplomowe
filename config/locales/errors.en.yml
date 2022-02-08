@@ -1,0 +1,22 @@
+en:
+  errors:
+    api:
+      bad_request:
+        default_message: 'Bad request'
+        missing_params: 'Missing required parameter: %{param}'
+        parameters_parse_error: 'Could not parse provided request body'
+      conflict:
+        default_message: 'Entity already exists'
+      forbidden:
+        default_message: 'Insufficient privileges'
+      internal_server_error:
+        default_message: 'Oooups, something went wrong'
+      not_found:
+        default_message: 'Resource not found'
+        model: "Couldn't find %{klass}"
+        model_by: "Couldn't find %{klass} with %{by} = %{value}"
+        route: 'Route `%{method} %{url}` not found'
+      unauthorized:
+        default_message: 'Missing or bad authorization'
+      validation_failed:
+        default_message: 'Validation failed'

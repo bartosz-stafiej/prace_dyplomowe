@@ -36,7 +36,7 @@ end
 
 50.times do |i|
   Student.create!(
-    id: first_college_index + i,
+    index: first_college_index + i,
     email: "student#{i}@email.com",
     password: 'password',
     telephone_number: (first_telephone_number + i).to_s,
@@ -56,21 +56,37 @@ end
   e.deans_worker! if i > 25
 end
 
+supervisor_ids = Employee.pluck(:id)
+author_ids = Student.pluck(:id)
+
 50.times do |i|
-  GraduationWork.create!(
+  gd = GraduationWork.create!(
     title: Faker::Quote.famous_last_words,
     topic: TOPICS[i / 10],
     date_of_submission: Faker::Date.between(from: '2014-09-23', to: '2022-02-01'),
     stage_of_study_id: (i / 20) + 1,
-    supervisor_id: i + 1
+    supervisor_id: supervisor_ids[i]
   )
 
   ThesisDefense.create!(
     defence_address: Faker::Address.full_address,
     final_grade: Random.new.rand(2..5),
     date_of_defence: Faker::Date.between(from: '2014-09-23', to: '2022-02-01'),
-    evaluator_id: i + 1,
-    author_id: first_college_index + i,
+    evaluator_id: supervisor_ids[i],
+    author_id: author_ids[i],
     graduation_work_id: i + 1
+  )
+
+  KeyWord.create!(
+    key_word: gd.topic.split[0],
+    graduation_work_id: gd.id
+  )
+
+  Review.create!(
+    grade: Random.new.rand(2..5),
+    reviewer_id: supervisor_ids[i],
+    comment: 'Nice one',
+    date_of_issue: Faker::Date.between(from: '2014-09-23', to: '2022-02-01'),
+    graduation_work_id: gd.id
   )
 end
