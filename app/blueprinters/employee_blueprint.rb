@@ -6,5 +6,6 @@ class EmployeeBlueprint < Blueprinter::Base
   fields :academic_degree,
          :first_name,
          :last_name,
+         :type,
          :email
 end

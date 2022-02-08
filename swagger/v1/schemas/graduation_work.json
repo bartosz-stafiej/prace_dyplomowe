@@ -1,0 +1,29 @@
+{
+    "type": "object",
+    "required": [
+      "graduation_work"
+    ],
+    "properties": {
+        "graduation_work": {
+            "type": "object",
+            "required": [
+            "created_at",
+            "date_of_submission",
+            "id",
+            "title",
+            "topic",
+            "updated_at"
+            ],
+            "properties": {
+                "created_at": { "type": "string", "format": "date" },
+                "date_of_submission": { "type": "string", "format": "date" },
+                "id": { "type": "integer" },
+                "stage_of_study_id": { "type": "integer" },
+                "supervisor_id": { "type": "integer" },
+                "title": { "type": "string" },
+                "topic": { "type": "string" },
+                "updated_at": { "type": "string", "format": "date" }
+            }
+        }
+    }
+}

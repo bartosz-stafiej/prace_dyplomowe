@@ -1,18 +1,14 @@
 # frozen_string_literal: true
 
-require 'constants/pagy'
-
 module Api
   module V1
     class BaseController < ApplicationController
-      include Pagy::Backend
+      include ErrorsHandler
 
-      DEFAULT_ITEMS_PARAM = Constants::Pagy::DEFAULT_ITEMS_PARAM
+      after_action :merge_pagy_headers_if_present
 
-      private
-
-      def items
-        params[:items] || DEFAULT_ITEMS_PARAM
+      def merge_pagy_headers_if_present
+        pagy_headers_merge(@pagy) if @pagy
       end
     end
   end

@@ -1,0 +1,15 @@
+{
+    "type": "object",
+    "required": [
+        "graduation_works"
+    ],
+    "properties": {
+        "graduation_works": {
+            "type": "array",
+            "minItems": 0,
+            "items": {
+            "$ref": "#/components/schemas/graduation_work_schema/properties/graduation_work"
+            }
+        }
+    }
+}

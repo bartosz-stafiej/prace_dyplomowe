@@ -56,45 +56,6 @@ ALTER SEQUENCE public.colleges_id_seq OWNED BY public.colleges.id;
 
 
 --
--- Name: employees; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.employees (
-    id bigint NOT NULL,
-    academic_degree character varying(50) NOT NULL,
-    first_name character varying(100) NOT NULL,
-    last_name character varying(100) NOT NULL,
-    email character varying DEFAULT ''::character varying NOT NULL,
-    encrypted_password character varying DEFAULT ''::character varying NOT NULL,
-    reset_password_token character varying,
-    reset_password_sent_at timestamp without time zone,
-    remember_created_at timestamp without time zone,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL,
-    role integer DEFAULT 1 NOT NULL
-);
-
-
---
--- Name: employees_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.employees_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: employees_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.employees_id_seq OWNED BY public.employees.id;
-
-
---
 -- Name: graduation_works; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -104,9 +65,9 @@ CREATE TABLE public.graduation_works (
     topic character varying NOT NULL,
     date_of_submission timestamp without time zone NOT NULL,
     stage_of_study_id bigint NOT NULL,
-    supervisor_id bigint,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    supervisor_id bigint
 );
 
 
@@ -171,7 +132,7 @@ CREATE TABLE public.reviews (
     reviewer_id bigint NOT NULL,
     grade numeric NOT NULL,
     comment text NOT NULL,
-    date_of_issue timestamp without time zone DEFAULT '2022-01-22 22:35:53.913043'::timestamp without time zone NOT NULL,
+    date_of_issue timestamp without time zone DEFAULT '2022-02-06 12:22:57.954348'::timestamp without time zone NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL
 );
@@ -237,45 +198,6 @@ ALTER SEQUENCE public.stage_of_studies_id_seq OWNED BY public.stage_of_studies.i
 
 
 --
--- Name: students; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.students (
-    id bigint NOT NULL,
-    email character varying DEFAULT ''::character varying NOT NULL,
-    encrypted_password character varying DEFAULT ''::character varying NOT NULL,
-    telephone_number character varying NOT NULL,
-    first_name character varying NOT NULL,
-    last_name character varying NOT NULL,
-    reset_password_token character varying,
-    reset_password_sent_at timestamp without time zone,
-    remember_created_at timestamp without time zone,
-    college_id bigint,
-    created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
-);
-
-
---
--- Name: students_id_seq; Type: SEQUENCE; Schema: public; Owner: -
---
-
-CREATE SEQUENCE public.students_id_seq
-    START WITH 1
-    INCREMENT BY 1
-    NO MINVALUE
-    NO MAXVALUE
-    CACHE 1;
-
-
---
--- Name: students_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
---
-
-ALTER SEQUENCE public.students_id_seq OWNED BY public.students.id;
-
-
---
 -- Name: thesis_defenses; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -283,12 +205,12 @@ CREATE TABLE public.thesis_defenses (
     id bigint NOT NULL,
     defence_address character varying NOT NULL,
     final_grade numeric,
-    date_of_defence timestamp without time zone DEFAULT '2022-01-22 16:22:58.933932'::timestamp without time zone NOT NULL,
+    date_of_defence timestamp without time zone DEFAULT '2022-02-06 12:22:57.913827'::timestamp without time zone NOT NULL,
     evaluator_id bigint NOT NULL,
-    author_id bigint NOT NULL,
     graduation_work_id bigint NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
-    updated_at timestamp(6) without time zone NOT NULL
+    updated_at timestamp(6) without time zone NOT NULL,
+    author_id bigint
 );
 
 
@@ -312,17 +234,53 @@ ALTER SEQUENCE public.thesis_defenses_id_seq OWNED BY public.thesis_defenses.id;
 
 
 --
+-- Name: users; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.users (
+    id bigint NOT NULL,
+    academic_degree character varying(50),
+    first_name character varying(100) NOT NULL,
+    last_name character varying(100) NOT NULL,
+    email character varying DEFAULT ''::character varying NOT NULL,
+    encrypted_password character varying DEFAULT ''::character varying NOT NULL,
+    reset_password_token character varying,
+    reset_password_sent_at timestamp without time zone,
+    remember_created_at timestamp without time zone,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
+    role integer DEFAULT 1 NOT NULL,
+    type character varying NOT NULL,
+    index integer,
+    telephone_number character varying,
+    college_id bigint
+);
+
+
+--
+-- Name: users_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.users_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: users_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.users_id_seq OWNED BY public.users.id;
+
+
+--
 -- Name: colleges id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.colleges ALTER COLUMN id SET DEFAULT nextval('public.colleges_id_seq'::regclass);
-
-
---
--- Name: employees id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.employees ALTER COLUMN id SET DEFAULT nextval('public.employees_id_seq'::regclass);
 
 
 --
@@ -354,17 +312,17 @@ ALTER TABLE ONLY public.stage_of_studies ALTER COLUMN id SET DEFAULT nextval('pu
 
 
 --
--- Name: students id; Type: DEFAULT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.students ALTER COLUMN id SET DEFAULT nextval('public.students_id_seq'::regclass);
-
-
---
 -- Name: thesis_defenses id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.thesis_defenses ALTER COLUMN id SET DEFAULT nextval('public.thesis_defenses_id_seq'::regclass);
+
+
+--
+-- Name: users id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.users ALTER COLUMN id SET DEFAULT nextval('public.users_id_seq'::regclass);
 
 
 --
@@ -381,14 +339,6 @@ ALTER TABLE ONLY public.ar_internal_metadata
 
 ALTER TABLE ONLY public.colleges
     ADD CONSTRAINT colleges_pkey PRIMARY KEY (id);
-
-
---
--- Name: employees employees_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.employees
-    ADD CONSTRAINT employees_pkey PRIMARY KEY (id);
 
 
 --
@@ -432,14 +382,6 @@ ALTER TABLE ONLY public.stage_of_studies
 
 
 --
--- Name: students students_pkey; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.students
-    ADD CONSTRAINT students_pkey PRIMARY KEY (id);
-
-
---
 -- Name: thesis_defenses thesis_defenses_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -448,17 +390,11 @@ ALTER TABLE ONLY public.thesis_defenses
 
 
 --
--- Name: index_employees_on_email; Type: INDEX; Schema: public; Owner: -
+-- Name: users users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
-CREATE UNIQUE INDEX index_employees_on_email ON public.employees USING btree (email);
-
-
---
--- Name: index_employees_on_reset_password_token; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_employees_on_reset_password_token ON public.employees USING btree (reset_password_token);
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT users_pkey PRIMARY KEY (id);
 
 
 --
@@ -497,27 +433,6 @@ CREATE INDEX index_reviews_on_reviewer_id ON public.reviews USING btree (reviewe
 
 
 --
--- Name: index_students_on_college_id; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE INDEX index_students_on_college_id ON public.students USING btree (college_id);
-
-
---
--- Name: index_students_on_email; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_students_on_email ON public.students USING btree (email);
-
-
---
--- Name: index_students_on_reset_password_token; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_students_on_reset_password_token ON public.students USING btree (reset_password_token);
-
-
---
 -- Name: index_thesis_defenses_on_author_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -539,19 +454,32 @@ CREATE INDEX index_thesis_defenses_on_graduation_work_id ON public.thesis_defens
 
 
 --
+-- Name: index_users_on_college_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_users_on_college_id ON public.users USING btree (college_id);
+
+
+--
+-- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_users_on_email ON public.users USING btree (email);
+
+
+--
+-- Name: index_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_users_on_reset_password_token ON public.users USING btree (reset_password_token);
+
+
+--
 -- Name: reviews fk_rails_007031d9cb; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.reviews
-    ADD CONSTRAINT fk_rails_007031d9cb FOREIGN KEY (reviewer_id) REFERENCES public.employees(id);
-
-
---
--- Name: students fk_rails_1d4ff93d0b; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.students
-    ADD CONSTRAINT fk_rails_1d4ff93d0b FOREIGN KEY (college_id) REFERENCES public.colleges(id);
+    ADD CONSTRAINT fk_rails_007031d9cb FOREIGN KEY (reviewer_id) REFERENCES public.users(id);
 
 
 --
@@ -571,6 +499,14 @@ ALTER TABLE ONLY public.graduation_works
 
 
 --
+-- Name: users fk_rails_86d0f6650c; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.users
+    ADD CONSTRAINT fk_rails_86d0f6650c FOREIGN KEY (college_id) REFERENCES public.colleges(id);
+
+
+--
 -- Name: thesis_defenses fk_rails_8f924c616b; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -583,7 +519,7 @@ ALTER TABLE ONLY public.thesis_defenses
 --
 
 ALTER TABLE ONLY public.graduation_works
-    ADD CONSTRAINT fk_rails_97bf20bf5d FOREIGN KEY (supervisor_id) REFERENCES public.employees(id);
+    ADD CONSTRAINT fk_rails_97bf20bf5d FOREIGN KEY (supervisor_id) REFERENCES public.users(id);
 
 
 --
@@ -599,7 +535,7 @@ ALTER TABLE ONLY public.reviews
 --
 
 ALTER TABLE ONLY public.thesis_defenses
-    ADD CONSTRAINT fk_rails_c3a71e7e4b FOREIGN KEY (evaluator_id) REFERENCES public.employees(id);
+    ADD CONSTRAINT fk_rails_c3a71e7e4b FOREIGN KEY (evaluator_id) REFERENCES public.users(id);
 
 
 --
@@ -607,7 +543,7 @@ ALTER TABLE ONLY public.thesis_defenses
 --
 
 ALTER TABLE ONLY public.thesis_defenses
-    ADD CONSTRAINT fk_rails_d2b63b2de5 FOREIGN KEY (author_id) REFERENCES public.students(id);
+    ADD CONSTRAINT fk_rails_d2b63b2de5 FOREIGN KEY (author_id) REFERENCES public.users(id);
 
 
 --
@@ -625,6 +561,10 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20220119230724'),
 ('20220122155747'),
 ('20220122223040'),
-('20220124153551');
+('20220124153551'),
+('20220206101116'),
+('20220206101448'),
+('20220206101640'),
+('20220206115059');
 
 

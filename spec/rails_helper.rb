@@ -6,6 +6,9 @@ require File.expand_path('../config/environment', __dir__)
 
 abort('The Rails environment is running in production mode!') if Rails.env.production?
 require 'rspec/rails'
+require 'devise/test_helpers'
+require 'action_policy/rspec/dsl'
+
 Dir[Rails.root.join('spec/helpers/**/*.rb')].each { |f| require f }
 
 begin

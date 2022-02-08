@@ -3,6 +3,8 @@
 module Api
   module V1
     class GraduationWorksController < BaseController
+      include Pagy::Backend
+
       def index
         scope = GraduationWork.all
         filtered_scope = GraduationWorks::SearchByTitleQuery
@@ -11,12 +13,16 @@ module Api
                            search_phrase: params[:search_phrase]
                          ).call
 
-        @pagy, @graduation_works = pagy(filtered_scope, items: params[:items])
+        @pagy, graduation_works = pagy(filtered_scope, items: params[:items])
 
-        render json: GraduationWorkBlueprint.render(@graduation_works, root: :graduation_works)
+        render json: GraduationWorkBlueprint.render(graduation_works, root: :graduation_works, meta: { item_count: filtered_scope.count })
       end
 
-      def show; end
+      def show
+        graduation_work = GraduationWork.find(params[:id])
+
+        render json: GraduationWorkBlueprint.render(graduation_work, view: :with_assoc, root: :graduation_work)
+      end
     end
   end
 end
