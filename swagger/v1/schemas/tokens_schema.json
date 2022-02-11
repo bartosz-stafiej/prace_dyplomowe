@@ -1,0 +1,39 @@
+{
+    "type": "object",
+    "required": [
+        "tokens"
+    ],
+    "properties": {
+        "tokens": {
+            "type": "object",
+            "required": [
+                "access_token",
+                "refresh_token"
+            ],
+            "properties" : {
+                "access_token": {
+                    "type": "object",
+                    "required": [
+                        "token",
+                        "expires_in"
+                    ],
+                    "properties": {
+                        "token": { "type": "string" },
+                        "expires_in": { "type": "integer" }
+                    }
+                },
+                "refresh_token": {
+                    "type": "object",
+                    "required": [
+                        "token",
+                        "expires_in"
+                    ],
+                    "properties": {
+                        "token": { "type": "string" },
+                        "expires_in": { "type": "integer" }
+                    }
+                }
+            }
+        }
+    }
+}

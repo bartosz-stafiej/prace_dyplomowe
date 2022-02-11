@@ -1,0 +1,27 @@
+{
+    "type": "object",
+    "required": [
+        "user"
+    ],
+    "properties": {
+        "user": {
+            "type": "object",
+            "required": [
+                "created_at",
+                "email",
+                "id",
+                "tokens",
+                "updated_at"
+            ],
+            "properties": {
+                "created_at": { "type": "string", "format": "date" },
+                "email": { "type": "string" },
+                "id": { "type": "integer" },
+                "tokens": {
+                    "$ref": "#/components/schemas/tokens_schema/properties/tokens"
+                },
+                "updated_at": { "type": "string", "format": "date" }
+            }
+        }
+    }
+}

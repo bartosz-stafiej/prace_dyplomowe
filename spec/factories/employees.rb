@@ -11,5 +11,7 @@ FactoryBot.define do
     last_name { Faker::Name.unique.last_name }
     email { Faker::Internet.email }
     password { 'password' }
+    password_confirmation { 'password' }
+    authentication_token { Random.hex(60) }
   end
 end

@@ -7,10 +7,12 @@ ruby '3.0.0'
 
 ##backend
 gem 'action_policy', '~> 0.6.0'
+gem 'bcrypt'
 gem 'blueprinter', '~> 0.25.3'
 gem 'bootsnap', '>= 1.4.4', require: false
-gem 'devise'
-gem 'devise-jwt'
+gem 'dotenv-rails', '~> 2.1', '>= 2.1.1'
+gem 'dry-equalizer', '~> 0.3.0'
+gem 'dry-validation', '~> 1.6.0'
 gem 'faker'
 gem 'pagy', '~> 4.11'
 gem 'pg', '~> 1.1'
