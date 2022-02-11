@@ -2,6 +2,7 @@
 
 require 'faker'
 require './lib/constants/employees/college_degrees'
+require './lib/token_generator/authentication_token_generator'
 
 COLLEGE_DEGREES = Constants::Employees::CollegeDegrees
 TOPICS = [
@@ -42,7 +43,8 @@ end
     telephone_number: (first_telephone_number + i).to_s,
     first_name: Faker::Name.unique.first_name,
     last_name: Faker::Name.unique.last_name,
-    college_id: (i / 10) + 1
+    college_id: (i / 10) + 1,
+    authentication_token: TokenGenerator::AuthenticationTokenGenerator.call
   )
 
   e = Employee.create!(
@@ -50,7 +52,8 @@ end
     password: 'employee_password',
     first_name: Faker::Name.unique.first_name,
     last_name: Faker::Name.unique.last_name,
-    academic_degree: random_college_degree(i + 1)
+    academic_degree: random_college_degree(i + 1),
+    authentication_token: TokenGenerator::AuthenticationTokenGenerator.call
   )
 
   e.deans_worker! if i > 25

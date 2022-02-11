@@ -39,16 +39,28 @@ RSpec.configure do |config|
       ],
       components: {
         securitySchemes: {
-          bearer_auth: {
-            type: 'http',
-            scheme: 'bearer'
+          basic_auth: {
+            type: :http,
+            scheme: :basic
+          },
+          access_token: {
+            type: :access_token,
+            name: 'access_token',
+            in: :headers
+          },
+          refresh_token: {
+            type: :refresh_token,
+            name: 'refresh_token',
+            in: :headers
           }
         },
         schemas: {
+          auth_schema: parse_swagger_schema('auth_schema'),
           me_schema: parse_swagger_schema('me_schema'),
           error_schema: parse_swagger_schema('error_schema'),
-          graduation_work_schema: parse_swagger_schema('graduation_work'),
-          graduation_works_schema: parse_swagger_schema('graduation_works')
+          graduation_work_schema: parse_swagger_schema('graduation_work_schema'),
+          graduation_works_schema: parse_swagger_schema('graduation_works_schema'),
+          tokens_schema: parse_swagger_schema('tokens_schema')
         }
       }
     }

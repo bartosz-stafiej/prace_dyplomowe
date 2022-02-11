@@ -4,10 +4,6 @@ Rails.application.routes.draw do
   mount Rswag::Ui::Engine => '/api-docs'
   mount Rswag::Api::Engine => '/api-docs'
 
-  devise_for :users, controllers: {
-    sessions: 'users/sessions'
-  }
-
   root to: 'graduation_works#index'
 
   resources :raports, only: %i[index new create] do

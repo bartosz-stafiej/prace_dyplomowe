@@ -132,7 +132,7 @@ CREATE TABLE public.reviews (
     reviewer_id bigint NOT NULL,
     grade numeric NOT NULL,
     comment text NOT NULL,
-    date_of_issue timestamp without time zone DEFAULT '2022-02-06 12:22:57.954348'::timestamp without time zone NOT NULL,
+    date_of_issue timestamp without time zone DEFAULT '2022-02-08 21:58:13.102759'::timestamp without time zone NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL
 );
@@ -205,7 +205,7 @@ CREATE TABLE public.thesis_defenses (
     id bigint NOT NULL,
     defence_address character varying NOT NULL,
     final_grade numeric,
-    date_of_defence timestamp without time zone DEFAULT '2022-02-06 12:22:57.913827'::timestamp without time zone NOT NULL,
+    date_of_defence timestamp without time zone DEFAULT '2022-02-08 21:58:13.052498'::timestamp without time zone NOT NULL,
     evaluator_id bigint NOT NULL,
     graduation_work_id bigint NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
@@ -243,17 +243,15 @@ CREATE TABLE public.users (
     first_name character varying(100) NOT NULL,
     last_name character varying(100) NOT NULL,
     email character varying DEFAULT ''::character varying NOT NULL,
-    encrypted_password character varying DEFAULT ''::character varying NOT NULL,
-    reset_password_token character varying,
-    reset_password_sent_at timestamp without time zone,
-    remember_created_at timestamp without time zone,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL,
     role integer DEFAULT 1 NOT NULL,
     type character varying NOT NULL,
     index integer,
     telephone_number character varying,
-    college_id bigint
+    college_id bigint,
+    password_digest character varying NOT NULL,
+    authentication_token character varying NOT NULL
 );
 
 
@@ -454,6 +452,13 @@ CREATE INDEX index_thesis_defenses_on_graduation_work_id ON public.thesis_defens
 
 
 --
+-- Name: index_users_on_authentication_token; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_users_on_authentication_token ON public.users USING btree (authentication_token);
+
+
+--
 -- Name: index_users_on_college_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -465,13 +470,6 @@ CREATE INDEX index_users_on_college_id ON public.users USING btree (college_id);
 --
 
 CREATE UNIQUE INDEX index_users_on_email ON public.users USING btree (email);
-
-
---
--- Name: index_users_on_reset_password_token; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX index_users_on_reset_password_token ON public.users USING btree (reset_password_token);
 
 
 --
@@ -565,6 +563,7 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20220206101116'),
 ('20220206101448'),
 ('20220206101640'),
-('20220206115059');
+('20220206115059'),
+('20220208214205');
 
 

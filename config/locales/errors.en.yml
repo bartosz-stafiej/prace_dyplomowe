@@ -1,4 +1,9 @@
 en:
+  dry_validation:
+    sessions:
+      create:
+        invalid_email_format: 'is in invalid format'
+
   errors:
     api:
       bad_request:
