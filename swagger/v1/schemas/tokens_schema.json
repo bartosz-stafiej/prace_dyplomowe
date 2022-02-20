@@ -19,7 +19,7 @@
                     ],
                     "properties": {
                         "token": { "type": "string" },
-                        "expires_in": { "type": "integer" }
+                        "expires_at": { "type": "datetime" }
                     }
                 },
                 "refresh_token": {
@@ -30,7 +30,7 @@
                     ],
                     "properties": {
                         "token": { "type": "string" },
-                        "expires_in": { "type": "integer" }
+                        "expires_at": { "type": "datetime" }
                     }
                 }
             }

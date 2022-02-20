@@ -4,23 +4,26 @@ import NoResults from './errors/NoResults';
 import Spinner from './Spinner';
 import useFetch from '../services/useFetch';
 import Pagination from './Pagination';
+import { useAuth } from '../contexts/authContext';
 
 export const DEFAULT_PAGINATION_PARAMS = {
     items: 20,
     page: 1,
 }
 
-const GraduationWorks = ({query, setQuery}) => {
+const GraduationWorks = ({query, setQuery, baseUrl}) => {
+    const { user } = useAuth();
+
     const {
         data: graduationWorks,
         error,
         loading,
         itemCount
-    } = useFetch('/graduation_works' +
+    } = useFetch(baseUrl +
                 `?items=${query.items || DEFAULT_PAGINATION_PARAMS.items}` +
                 `&page=${query.page || DEFAULT_PAGINATION_PARAMS.page}` +
                 `&search_phrase=${query.searchPhrase || ''}`,
-                'graduation_works');
+                'graduation_works', user.tokens.access_token.token);
 
     function renderGraduationWork(gd) {
         return (
@@ -35,13 +38,15 @@ const GraduationWorks = ({query, setQuery}) => {
                     </div>
                 </div>
                 <div className="d-flex flex-row align-items-center">
-                    {/* <% if current_deans_worker? %>
+                    {user && user.type === 'Employee' &&
                         <div className="d-flex flex-column mr-2">
                             <div className="profile-image">
-                                <%= button_to 'Update', edit_graduation_work_path(gd), className: 'btn btn-primary mr-5', method: :get %>
+                                <Link to="/graduation_works/:id/edit" className='btn btn-primary mr-5'>
+                                    Update
+                                </Link>
                             </div>
-                        </div> 
-                    <% end %> */}
+                        </div>
+                    }
                     <div className="d-flex flex-column mr-2">
                         <div className="profile-image">
                             <Link to={`/graduation_works/${gd.id}`} className="btn btn-primary">Details</Link>
@@ -61,19 +66,14 @@ const GraduationWorks = ({query, setQuery}) => {
             <div className="row">
                 <div className="col-md-12">
                     <div className="d-flex justify-content-between align-items-center activity">
-                        <div>
                             <span className="activity-done">
-                                {/* <% if params[:me_scope] %>
-                                Yours
-                                <% end %> */}
                                 Graduations Work
                             </span>
-                        </div>
-                        {/* <% if current_deans_worker? %>
-                            <a href='/students/me/graduation_works/new' style="text-decoration:none;">
+                        {user && user.type === 'Employee' &&
+                            <Link to='/students/me/graduation_works/new'>
                                 Add graduation work
-                            </a>
-                        <% end %> */}
+                            </Link>
+                        }
                         <Pagination setQuery={setQuery} query={query} itemCount={itemCount}/>
                     </div>
                     <div className="mt-3">

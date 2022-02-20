@@ -6,6 +6,18 @@ Rails.application.routes.draw do
 
   root to: 'graduation_works#index'
 
+  get '/login', to: 'sessions#new'
+
+  resources :users, only: %i[] do
+    collection do
+      get 'edit'
+
+      resource :me, me_scope: true, only: %i[] do
+        resources :graduation_works, only: %i[index]
+      end
+    end
+  end
+
   resources :raports, only: %i[index new create] do
     collection do
       post 'generate_csv'
@@ -16,14 +28,6 @@ Rails.application.routes.draw do
     resources :reviews, only: %i[index show new edit update create delete]
 
     resources :thesis_defenses, only: %i[show index new create edit update delete]
-  end
-
-  resources :students, only: %i[] do
-    collection do
-      resource :me, me_scope: true, only: %i[] do
-        resources :graduation_works, only: %i[new index]
-      end
-    end
   end
 
   draw(:api_v1)

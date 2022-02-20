@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class AlterTableUsers < ActiveRecord::Migration[6.1]
   def change
     change_table :users do |t|
@@ -12,7 +14,6 @@ class AlterTableUsers < ActiveRecord::Migration[6.1]
 
     change_column_null(:users, :type, false)
     change_column_null(:users, :academic_degree, true)
-    
 
     add_reference :thesis_defenses, :author, foreign_key: { to_table: :users }
   end

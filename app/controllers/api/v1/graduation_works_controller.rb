@@ -6,7 +6,8 @@ module Api
       include Pagy::Backend
 
       def index
-        scope = GraduationWork.all
+        scope = me? ? authorized_scope(GraduationWork.all, as: :owner) : GraduationWork.all
+
         filtered_scope = GraduationWorks::SearchByTitleQuery
                          .new(
                            scope: scope,
@@ -15,7 +16,8 @@ module Api
 
         @pagy, graduation_works = pagy(filtered_scope, items: params[:items])
 
-        render json: GraduationWorkBlueprint.render(graduation_works, root: :graduation_works, meta: { item_count: filtered_scope.count })
+        render json: GraduationWorkBlueprint.render(graduation_works, root: :graduation_works,
+                                                                      meta: { item_count: filtered_scope.count })
       end
 
       def show

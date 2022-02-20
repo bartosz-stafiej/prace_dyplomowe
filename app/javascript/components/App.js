@@ -2,6 +2,7 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import GraduationWorks from './GraduationWorks';
 import GraduationWork from './GraduationWork';
+import Profile from './Profile';
 import Header from './Header';
 import Login from './Login';
 import useQuery from  '../services/useQuery'
@@ -15,9 +16,23 @@ const App = () => {
             <main>
                 <Header setQuery={setQuery} query={query} />
                 <Routes>
-                    <Route path="/" element={<GraduationWorks query={query} setQuery={setQuery} />} />
+                    <Route path="/" 
+                        element={<GraduationWorks 
+                                    query={query}
+                                    setQuery={setQuery}
+                                    baseUrl="/graduation_works"
+                                />}                
+                    />
+                    <Route path="/users/me/graduation_works" 
+                        element={<GraduationWorks 
+                                    query={query} 
+                                    setQuery={setQuery} 
+                                    baseUrl="/users/me/graduation_works"
+                                />} 
+                    />
                     <Route path="/graduation_works/:id" element={<GraduationWork />} />
-                    <Route path="/users/sign_in" element={<Login />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/users/edit" element={<Profile />} />
                 </Routes>
             </main>
         </AuthProvider>

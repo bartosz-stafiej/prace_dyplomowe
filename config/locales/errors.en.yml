@@ -1,5 +1,8 @@
 en:
   dry_validation:
+    errors:
+      taken: 'is taken'
+
     sessions:
       create:
         invalid_email_format: 'is in invalid format'
@@ -23,5 +26,6 @@ en:
         route: 'Route `%{method} %{url}` not found'
       unauthorized:
         default_message: 'Missing or bad authorization'
+        invalid_csrf: "Can't verify CSRF token authenticity"
       validation_failed:
         default_message: 'Validation failed'

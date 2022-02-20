@@ -1,19 +1,21 @@
+# frozen_string_literal: true
+
 module TokenGenerator
-    class MessageVerifier
-        class << self
-            def encode(data:, expires_at:, purpose:)
-                verifier.generate(data, expires_at: expires_at, purpose: purpose)
-            end
+  class MessageVerifier
+    class << self
+      def encode(data:, expires_at:, purpose:)
+        verifier.generate(data, expires_at: expires_at, purpose: purpose)
+      end
 
-            def decode(message:, purpose:)
-                verifier.verify(message, purpose: purpose)
-            end
+      def decode(message:, purpose:)
+        verifier.verify(message, purpose: purpose)
+      end
 
-            private
+      private
 
-            def verifier
-              ActiveSupport::MessageVerifier.new(ENV['SECRET_KEY_BASE'], digest: 'SHA512')
-            end
-        end
+      def verifier
+        ActiveSupport::MessageVerifier.new(ENV['SECRET_KEY_BASE'], digest: 'SHA512')
+      end
     end
+  end
 end

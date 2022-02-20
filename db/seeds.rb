@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 require 'faker'
-require './lib/constants/employees/college_degrees'
-require './lib/token_generator/authentication_token_generator'
+require './lib/constants/users/academic_degrees'
+require './app/services/token_generator/authentication_token_generator'
 
-COLLEGE_DEGREES = Constants::Employees::CollegeDegrees
+COLLEGE_DEGREES = Constants::Users::AcademicDegrees
 TOPICS = [
   'Rozpoznawanie osób na podstawie analizy obrazów',
   'Zastosowanie systemów wieloklasyfikatorowych do rozpoznawania ruchów chwytnych dłoni',

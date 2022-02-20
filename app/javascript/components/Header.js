@@ -3,22 +3,22 @@ import Logo from 'images/logo.png';
 import { Link } from 'react-router-dom';
 import { CurrentUserHeader, CurrentScienceWorkerHeader } from './AuthHeaders';
 import { useAuth } from '../contexts/authContext';
-import axios from 'axios';
+import signOut from '../actions/signOut';
+import { useNavigate } from 'react-router-dom';
 
 const Header = ({query, setQuery}) => {
-    const { user, setUser } = useAuth();
+    const { user, csrf } = useAuth();
+    const navigate = useNavigate();
 
     function handleChange(e) {
-        setQuery({...query, searchPhrase: e.target.value });
+        setQuery({...query, page: 1, searchPhrase: e.target.value });
     }
 
-    function logoutUser() {
-        try {
-            axios.delete('/users/sign_out');
-            setUser(null);
-          } catch(e) {
-            throw e;
-          }
+    async function logoutUser() {
+        const authToken = user.tokens.access_token.token;
+        await signOut(authToken, csrf);
+        await navigate('/');
+        location.reload();
     }
 
     return (
@@ -30,13 +30,11 @@ const Header = ({query, setQuery}) => {
                     </Link>
 
                     <ul className="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
-                        {console.log(user)}
                         {user && 
                             <CurrentUserHeader />
                         }
-                        {user && 
-                            user.type === 'Employee' &&
-                                <CurrentScienceWorkerHeader />
+                        {user && user.type === 'Employee' &&
+                            <CurrentScienceWorkerHeader />
                         }
                     </ul>
 
@@ -61,7 +59,7 @@ const Header = ({query, setQuery}) => {
                     }
                     {!user && 
                         <div className="text-end">
-                            <Link to='/users/sign_in' className="btn btn-warning">
+                            <Link to='/login' className="btn btn-warning">
                                 Login
                             </Link>
                         </div>

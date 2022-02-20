@@ -22,6 +22,10 @@ Metrics/BlockLength:
     - spec/requests/api/v1/**/*
     - spec/swagger_helper.rb
     - spec/models/*
+    - db/seeds.rb
+    - spec/contracts/**/*
+    - spec/services/**/*
+    - spec/queries/**/*
 
 
 Metrics/MethodLength:
