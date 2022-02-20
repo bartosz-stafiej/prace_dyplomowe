@@ -20,13 +20,16 @@ class RaportsController < ApplicationController
     scope = Raports::ScopeQuery.new(search_params: csv_params).call
 
     csv_data = GraduationWork.generate_csv(scope)
-    send_data csv_data, filename: "Raport-#{Date.today}.csv", disposition: :attachment
+    send_data csv_data, filename: "Raport-#{Time.zone.today}.csv", disposition: :attachment
   end
 
   private
 
   def permited_params
-    params.permit(:grade, :faculty, :date_from, :date_to, :evaluator, :supervisor, :field_of_study, :key_word).to_unsafe_h.reject { |_k, v| v.empty? }
+    params.permit(:grade, :faculty, :date_from, :date_to, :evaluator, :supervisor, :field_of_study,
+                  :key_word).to_unsafe_h.reject do |_k, v|
+      v.empty?
+    end
   end
 
   def csv_params

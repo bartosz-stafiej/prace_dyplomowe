@@ -1,17 +1,22 @@
-import React from "react";
-import useLogin from '../services/useLogin';
+import React, { useState } from "react";
 import { useAuth } from '../contexts/authContext'
+import singIn from "../actions/signIn";
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
-    const { setUser } = useAuth();
+    const [input, setInput] = useState({});
+    const { csrf } = useAuth();
     const navigate = useNavigate();
 
-    function handleSubmit(event) {
-        const res = useLogin('/users/sign_in', event.target.value);
-        setUser(res);
-        debugger;
-        navigate('/graduation_works');
+    const handleChange = (e) => {
+        setInput({...input, [e.target.id]: e.target.value});
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        await singIn(input, csrf);
+        await navigate('/');
+        location.reload();
     }
 
     return (
@@ -22,24 +27,39 @@ const Login = () => {
                         <div className="card">
                             <div className="card-header">Login</div>
                             <div className="card-body">
-                                <form action="" method="post" onSubmit={handleSubmit}>
+                                <form action="" onSubmit={handleSubmit}>
                                     <div className="form-group row">
                                         <label htmlFor="email" className="col-md-4 col-form-label text-md-right">E-Mail Address</label>
                                         <div className="col-md-6">
-                                            <input type="text" id="email" className="form-control" name="user[email]" required autoFocus />
+                                            <input
+                                                type="text"
+                                                id="email"
+                                                className="form-control"
+                                                name="user[email]"
+                                                onChange={handleChange}
+                                                required
+                                                autoFocus
+                                            />
                                         </div>
                                     </div>
 
                                     <div className="form-group row">
                                         <label htmlFor="password" className="col-md-4 col-form-label text-md-right">Password</label>
                                         <div className="col-md-6">
-                                            <input type="password" id="password" className="form-control"  name="user[password]" required />
+                                            <input
+                                                type="password"
+                                                id="password"
+                                                className="form-control"
+                                                name="user[password]"
+                                                onChange={handleChange}
+                                                required 
+                                            />
                                         </div>
                                     </div>
 
 
                                     <div className="col-md-6 offset-md-4">
-                                        <button type="submit" className="btn btn-primary" >
+                                        <button type="submit" className="btn btn-primary">
                                             Login
                                         </button>
                                         {/*<%= render "devise/shared/links" %>*/}

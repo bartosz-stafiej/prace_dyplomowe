@@ -1,10 +1,9 @@
 # frozen_string_literal: true
 
-Dir["/queries/raports/subscopes/*.rb"].each {|file| require file }
+Dir['/queries/raports/subscopes/*.rb'].each { |file| require file }
 
 module Raports
   class ScopeQuery
-
     def initialize(search_params:)
       @search_params = search_params
     end
@@ -14,12 +13,11 @@ module Raports
 
       scope = GraduationWork.all
       params.each do |param, search_phrase|
-        scope = 
-          Raports::Subscopes.const_get(param.to_s.camelize + 'Scope')
-            .call(
-              scope: scope,
-              search_phrase: search_phrase
-            )
+        scope = Raports::Subscopes.const_get("#{param.to_s.camelize}Scope")
+                                  .call(
+                                    scope: scope,
+                                    search_phrase: search_phrase
+                                  )
       end
       scope
     end

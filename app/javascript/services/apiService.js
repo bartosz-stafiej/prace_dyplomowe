@@ -1,9 +1,17 @@
 import axios from 'axios';
+import { useAuth } from '../contexts/authContext';
 
-const API_URL = 'http://localhost:3000/api/v1';
+export const API_URL = process.env.REACT_APP_API_BASE_URL;
 
-export async function apiGet(url) {
-    return await axios.get(API_URL + url)
+export async function apiGet(url, auth) {
+    return await axios.get(API_URL + url,
+        {
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': auth
+            }
+        }
+        )
         .then(response => {
             if (response.status === 200) {
                 return response.data
@@ -14,8 +22,17 @@ export async function apiGet(url) {
         })
 }
 
-export async function apiPost(url, body) {
-    const response = await axios.post(API_URL + url, body)
+export async function apiPost(url, body, auth) {
+    const { csrf } = useAuth();
+    await axios.post(API_URL + url,
+        {...body},
+        {
+            headers: { 
+                "X-CSRF-Token": csrf,
+                "Content-Type": "application/json",
+                'Authorization': auth
+            }
+        })
         .then(response => {
             if(response.status === 200 || response.status === 201) {
                 return response.data
@@ -23,5 +40,5 @@ export async function apiPost(url, body) {
         })
         .catch(err => {
             throw err;
-        })
+        });
 }

@@ -5,7 +5,7 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '3.0.0'
 
-##backend
+# #backend
 gem 'action_policy', '~> 0.6.0'
 gem 'bcrypt'
 gem 'blueprinter', '~> 0.25.3'
@@ -14,14 +14,14 @@ gem 'dotenv-rails', '~> 2.1', '>= 2.1.1'
 gem 'dry-equalizer', '~> 0.3.0'
 gem 'dry-validation', '~> 1.6.0'
 gem 'faker'
+gem 'multi_json', '~> 1.15'
 gem 'pagy', '~> 4.11'
 gem 'pg', '~> 1.1'
 gem 'puma', '~> 5.0'
 gem 'rails', '~> 6.1.4', '>= 6.1.4.1'
-gem 'sidekiq', '~> 6.2.1'
 gem 'rswag-api'
 gem 'rswag-ui', '~> 2.4'
-gem 'multi_json', '~> 1.15'
+gem 'sidekiq', '~> 6.2.1'
 
 ## frontend
 gem 'jbuilder', '~> 2.7'
@@ -32,12 +32,12 @@ gem 'webpacker', '~> 5.0'
 
 group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
-  gem 'pry-byebug'
-  gem 'rswag-specs'
   gem 'database_cleaner'
   gem 'factory_bot', '~> 6.2'
   gem 'factory_bot_rails', '~> 6.2'
+  gem 'pry-byebug'
   gem 'rspec-rails'
+  gem 'rswag-specs'
   gem 'shoulda-matchers', '~> 5.0'
 end
 

@@ -9,5 +9,5 @@ class Student < User
            inverse_of: :author,
            dependent: :nullify
 
-  validates_presence_of :index
+  validates :index, presence: true
 end

@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import { apiPost } from './apiService';
-import { apiGet } from './apiService'
 
-export default function useLogin(url, requestBody) {
+export default function usePost(url, requestBody) {
     const [response, setResponse] = useState(null);
     const [error, setError] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -10,8 +9,7 @@ export default function useLogin(url, requestBody) {
     useEffect(() => {
         async function init() { 
           try {
-            await apiPost(url, requestBody);
-            const res = await apiGet('/users/me');
+            const res = await apiPost(url, requestBody);
             await setResponse(res);
           } catch(e) {
             setError(e);

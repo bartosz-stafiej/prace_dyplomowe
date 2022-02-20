@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'constants/employees/college_degrees'
+require 'constants/users/academic_degrees'
 
-DR_PROFESOR = Constants::Employees::CollegeDegrees::DR_PROF
+DR_PROFESOR = Constants::Users::AcademicDegrees::DR_PROF
 
 FactoryBot.define do
   factory :employee do
