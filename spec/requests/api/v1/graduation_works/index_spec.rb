@@ -51,6 +51,16 @@ RSpec.describe '/api/v1/graduation_works#index', type: :request do
             expect(json_response['graduation_works'].map { |gd| gd['id'] }).to include(graduation_works.first.id)
           end
         end
+
+        context 'when search_phrase is empty' do
+          let(:example_schema) { { '$ref': '#/components/schemas/graduation_works_schema' } }
+          let(:search_phrase) { '' }
+
+          run_test! do |_response|
+            expect(json_response['graduation_works'].size).to eq(10)
+            expect(json_response['graduation_works'].map { |gd| gd['id'] }).to match_array(graduation_works.map(&:id))
+          end
+        end
       end
 
       response(400, 'bad request') do
