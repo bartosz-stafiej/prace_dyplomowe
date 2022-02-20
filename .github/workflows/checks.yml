@@ -13,6 +13,7 @@ env:
   PGUSER: postgres
   PGDATABASE: prace_dyplomowe_test
   PGPASSWORD: postgres
+  SECRET_KEY_BASE: e76af6d9aabccf9721ebc7031b3116d96ab3ca3ef8cb20f811b9426bbdc854f25e6b83e29f82949ab7fdfa48ee4f734198aa81b7797e2ba1e88cbef9a798a7fc
 
 on:
   push:
