@@ -13,6 +13,7 @@ export const DEFAULT_PAGINATION_PARAMS = {
 
 const GraduationWorks = ({query, setQuery, baseUrl}) => {
     const { user } = useAuth();
+    const auth_token = user ? user.tokens.access_token.token : '';
 
     const {
         data: graduationWorks,
@@ -23,7 +24,7 @@ const GraduationWorks = ({query, setQuery, baseUrl}) => {
                 `?items=${query.items || DEFAULT_PAGINATION_PARAMS.items}` +
                 `&page=${query.page || DEFAULT_PAGINATION_PARAMS.page}` +
                 `&search_phrase=${query.searchPhrase || ''}`,
-                'graduation_works', user.tokens.access_token.token);
+                'graduation_works', auth_token);
 
     function renderGraduationWork(gd) {
         return (
