@@ -22,8 +22,7 @@ export async function apiGet(url, auth) {
         })
 }
 
-export async function apiPost(url, body, auth) {
-    const { csrf } = useAuth();
+export async function apiPost(url, body, auth, csrf) {
     await axios.post(API_URL + url,
         {...body},
         {

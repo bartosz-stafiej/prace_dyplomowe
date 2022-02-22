@@ -3,6 +3,8 @@ import axios from 'axios';
 export default async function refreshToken(user, csrf) {
     const auth = user.tokens.refresh_token.token;
 
+
+
     await axios.post('/api/v1/refresh_token',
     {},
     {
@@ -16,7 +18,7 @@ export default async function refreshToken(user, csrf) {
         if (res.status === 200) return res.data;
     })
     .then(json => {
-        localStorage.setItem('me', JSON.parse(json));
+        localStorage.setItem('me', JSON.stringify(json['user']));
     })
     .then(() => location.reload() )
     .catch(e => {

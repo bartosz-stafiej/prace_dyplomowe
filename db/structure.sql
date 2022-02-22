@@ -132,7 +132,7 @@ CREATE TABLE public.reviews (
     reviewer_id bigint NOT NULL,
     grade numeric NOT NULL,
     comment text NOT NULL,
-    date_of_issue timestamp without time zone DEFAULT '2022-02-20 16:18:02.130808'::timestamp without time zone NOT NULL,
+    date_of_issue timestamp without time zone DEFAULT '2022-02-22 16:34:11.681626'::timestamp without time zone NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,
     updated_at timestamp(6) without time zone NOT NULL
 );
@@ -205,7 +205,7 @@ CREATE TABLE public.thesis_defenses (
     id bigint NOT NULL,
     defence_address character varying NOT NULL,
     final_grade numeric,
-    date_of_defence timestamp without time zone DEFAULT '2022-02-20 16:18:02.071826'::timestamp without time zone NOT NULL,
+    date_of_defence timestamp without time zone DEFAULT '2022-02-22 16:34:11.617603'::timestamp without time zone NOT NULL,
     evaluator_id bigint NOT NULL,
     graduation_work_id bigint NOT NULL,
     created_at timestamp(6) without time zone NOT NULL,

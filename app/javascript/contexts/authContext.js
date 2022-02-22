@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import refresh_token from '../services/refreshToken';
+import refreshToken from '../services/refreshToken';
 
 export const AuthContext = React.createContext(null);
 
@@ -26,7 +26,7 @@ export function AuthProvider(props) {
             if(access_token_expires_at > now) {
                 localStorage.setItem("me", JSON.stringify(user)), [user]
             } else if(refresh_token_expires_at > now) {
-                await refresh_token(user, setUser, csrf);
+                await refreshToken(user, csrf);
             } 
             else {
                 localStorage.removeItem("me");

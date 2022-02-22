@@ -85,7 +85,7 @@ RSpec.describe '/api/v1/sessions#create', type: :request do
           let(:key) { :email }
           let(:value) { 'is in invalid format' }
           let(:key_message) do
-            I18n.t!('dry_validation.sessions.create.invalid_email_format')
+            I18n.t!('dry_validation.errors.sessions.create.invalid_email_format')
           end
         end
       end

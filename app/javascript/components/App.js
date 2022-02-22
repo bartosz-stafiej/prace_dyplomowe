@@ -5,6 +5,8 @@ import GraduationWork from './GraduationWork';
 import Profile from './Profile';
 import Header from './Header';
 import Login from './Login';
+import NewGraduationWork from './NewGraduationWork'
+import EditGraduationWork from './EditGraduationWork';
 import useQuery from  '../services/useQuery'
 import { AuthProvider } from '../contexts/authContext';
 
@@ -33,6 +35,8 @@ const App = () => {
                     <Route path="/graduation_works/:id" element={<GraduationWork />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/users/edit" element={<Profile />} />
+                    <Route path="/graduation_works/new" element={<NewGraduationWork />} />
+                    <Route path="/graduation_works/:id/edit" element={<EditGraduationWork />} />
                 </Routes>
             </main>
         </AuthProvider>

@@ -3,12 +3,14 @@ import useFetch from '../services/useFetch';
 import { useAuth } from '../contexts/authContext';
 import Spinner from '../components/Spinner';
 import updateProfile from '../actions/updateProfile';
+import { useNavigate } from 'react-router-dom';
 
 const Profile = () => {
     const [input, setInput] = useState({});
     const { user, csrf } = useAuth();
+    const navigate = useNavigate();
 
-    const auth_token = user.tokens.access_token.token;
+    const auth_token = user ? user.tokens.access_token.token : null;
     const {
         data: me,
         loading,
@@ -29,6 +31,7 @@ const Profile = () => {
         location.reload();
     }
 
+    if (!user) navigate('/');
     if (loading) return <Spinner />
     if(error) throw error;
 

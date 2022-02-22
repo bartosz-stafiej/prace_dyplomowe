@@ -13,6 +13,7 @@ class GraduationWorkBlueprint < Blueprinter::Base
   view :with_assoc do
     association :thesis_defenses, blueprint: ThesisDefenseBlueprint, view: :with_assoc
     association :supervisor, blueprint: EmployeeBlueprint
+    association :stage_of_study, blueprint: StageOfStudyBlueprint
     association :reviews, blueprint: ReviewBlueprint, view: :with_assoc
   end
 end

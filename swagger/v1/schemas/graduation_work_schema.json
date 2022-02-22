@@ -7,12 +7,12 @@
         "graduation_work": {
             "type": "object",
             "required": [
-            "created_at",
-            "date_of_submission",
-            "id",
-            "title",
-            "topic",
-            "updated_at"
+                "created_at",
+                "date_of_submission",
+                "id",
+                "title",
+                "topic",
+                "updated_at"
             ],
             "properties": {
                 "created_at": { "type": "string", "format": "date" },

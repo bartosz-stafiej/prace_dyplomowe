@@ -1,0 +1,21 @@
+{
+    "type": "object",
+    "required": [
+      "stage_of_study"
+    ],
+    "properties": {
+        "stage_of_study": {
+            "type": "object",
+            "required": [
+                "id",
+                "name"
+            ],
+            "properties": {
+                "created_at": { "type": "string", "format": "date" },
+                "id": { "type": "integer" },
+                "name": { "type": "string" },
+                "updated_at": { "type": "string", "format": "date" }
+            }
+        }
+    }
+}

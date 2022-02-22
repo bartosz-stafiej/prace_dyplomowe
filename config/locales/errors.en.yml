@@ -3,9 +3,26 @@ en:
     errors:
       taken: 'is taken'
 
-    sessions:
-      create:
-        invalid_email_format: 'is in invalid format'
+      sessions:
+        create:
+          invalid_email_format: is in invalid format
+      graduation_works:
+        create:
+          rules:
+            date_of_submission:
+              invalid_date: must be before present day
+            stage_of_study_id:
+              not_found: "StageOfStudy with id %{id} does not exist"
+            supervisor_email:
+              not_found: "Employee with email %{email} does not exist"
+        update:
+          rules:
+            date_of_submission:
+              invalid_date: must be before present day
+            stage_of_study_id:
+              not_found: "StageOfStudy with id %{id} does not exist"
+            supervisor_email:
+              not_found: "Employee with email %{email} does not exist"
 
   errors:
     api:

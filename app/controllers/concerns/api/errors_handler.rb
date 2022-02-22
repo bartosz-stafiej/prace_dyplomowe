@@ -13,7 +13,7 @@ module Api
       rescue_from ActiveRecord::RecordNotFound, with: :handle_not_found
       rescue_from ActiveSupport::MessageVerifier::InvalidSignature, with: :handle_unauthorized
       rescue_from ActionController::InvalidAuthenticityToken, with: :handle_csrf
-      # rescue_from ActionPolicy::Unauthorized, with: :handle_forbidden
+      rescue_from ActionPolicy::Unauthorized, with: :handle_forbidden
       rescue_from Pagy::VariableError, with: :handle_pagy_variable_error
     end
 
@@ -32,6 +32,11 @@ module Api
       message = I18n.t('errors.api.bad_request.missing_params', params: error.param)
       bad_request = Controllers::Errors::Api::BadRequest.new(message)
       handle_api_error(bad_request)
+    end
+
+    def handle_forbidden
+      forbidden = Controllers::Errors::Api::Forbidden.new
+      handle_api_error(forbidden)
     end
 
     def handle_not_found(error)

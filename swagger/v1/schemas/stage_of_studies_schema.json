@@ -1,0 +1,15 @@
+{
+    "type": "object",
+    "required": [
+        "stage_of_studies"
+    ],
+    "properties": {
+        "stage_of_studies": {
+            "type": "array",
+            "minItems": 0,
+            "items": {
+            "$ref": "#/components/schemas/stage_of_study_schema/properties/stage_of_study"
+            }
+        }
+    }
+}
