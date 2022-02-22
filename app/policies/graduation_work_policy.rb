@@ -10,4 +10,12 @@ class GraduationWorkPolicy < ApplicationPolicy
       relation.where(supervisor_id: user.id)
     end
   end
+
+  def create?
+    user.type == 'Employee'
+  end
+
+  def update?
+    user.type == 'Employee'
+  end
 end

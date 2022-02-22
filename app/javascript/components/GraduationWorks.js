@@ -5,6 +5,7 @@ import Spinner from './Spinner';
 import useFetch from '../services/useFetch';
 import Pagination from './Pagination';
 import { useAuth } from '../contexts/authContext';
+import { useNavigate } from 'react-router-dom';
 
 export const DEFAULT_PAGINATION_PARAMS = {
     items: 20,
@@ -14,6 +15,7 @@ export const DEFAULT_PAGINATION_PARAMS = {
 const GraduationWorks = ({query, setQuery, baseUrl}) => {
     const { user } = useAuth();
     const auth_token = user ? user.tokens.access_token.token : '';
+    const navigate = useNavigate();
 
     const {
         data: graduationWorks,
@@ -42,7 +44,7 @@ const GraduationWorks = ({query, setQuery, baseUrl}) => {
                     {user && user.type === 'Employee' &&
                         <div className="d-flex flex-column mr-2">
                             <div className="profile-image">
-                                <Link to="/graduation_works/:id/edit" className='btn btn-primary mr-5'>
+                                <Link to={`/graduation_works/${gd.id}/edit`} className='btn btn-primary mr-5'>
                                     Update
                                 </Link>
                             </div>
@@ -58,7 +60,8 @@ const GraduationWorks = ({query, setQuery, baseUrl}) => {
         )
     }
 
-    if (error) throw error;
+    // if (!user && baseUrl.includes('me')) navigate('/login');
+    if (error) navigate('/login');
     if (loading) return <Spinner />
     if (graduationWorks.length === 0) return <NoResults query={query}/>;
 
@@ -71,7 +74,7 @@ const GraduationWorks = ({query, setQuery, baseUrl}) => {
                                 Graduations Work
                             </span>
                         {user && user.type === 'Employee' &&
-                            <Link to='/students/me/graduation_works/new'>
+                            <Link to='/graduation_works/new'>
                                 Add graduation work
                             </Link>
                         }

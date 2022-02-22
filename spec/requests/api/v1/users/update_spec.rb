@@ -41,7 +41,9 @@ RSpec.describe '/api/v1/users#update', type: :request do
                   }
                 }
 
-      include_examples 'auth check'
+      include_examples 'auth check' do
+        let(:input) { {} }
+      end
 
       response(200, 'successful') do
         let(:user) { create(:employee) }

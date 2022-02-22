@@ -2,8 +2,6 @@
 
 shared_examples 'auth check' do
   response(401, 'unauthorized') do
-    let(:input) { {} }
-
     context 'when authorization headers does not contains token' do
       let(:Authorization) { nil }
 

@@ -24,11 +24,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :graduation_works, only: %i[edit index show update create delete] do
-    resources :reviews, only: %i[index show new edit update create delete]
-
-    resources :thesis_defenses, only: %i[show index new create edit update delete]
-  end
+  resources :graduation_works, only: %i[new edit]
 
   draw(:api_v1)
 end

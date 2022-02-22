@@ -24,7 +24,7 @@ export const CurrentScienceWorkerHeader = () => {
         // here goes current science worker check
         <>
             <li>
-                <Link to='/students/me/graduation_works/new' className='nav-link px-2 text-white' >
+                <Link to='/graduation_works/new' className='nav-link px-2 text-white' >
                     Add Graduation Work
                 </Link>
             </li>
