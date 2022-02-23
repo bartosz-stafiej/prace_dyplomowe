@@ -52,10 +52,10 @@ RSpec.describe GraduationWorks::Create do
           expect(creator)
             .to receive(:call)
             .and_raise(Controllers::Errors::Api::NotFound)
+        end
 
-          it 'raise NotFound api error' do
-            expect { described_class.new(data: input).call }.to raise(Controllers::Errors::Api::NotFound)
-          end
+        it 'raise NotFound api error' do
+          expect { described_class.new(data: input).call }.to raise_error(Controllers::Errors::Api::NotFound)
         end
       end
     end

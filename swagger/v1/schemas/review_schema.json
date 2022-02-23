@@ -1,0 +1,27 @@
+{
+    "type": "object",
+    "required": [
+      "review"
+    ],
+    "properties": {
+        "review": {
+            "type": "object",
+            "required": [
+                "comment",
+                "created_at",
+                "date_of_issue",
+                "grade",
+                "id",
+                "updated_at"
+            ],
+            "properties": {
+                "comment": { "type": "string" },
+                "created_at": { "type": "string", "format": "date" },
+                "date_of_issue": { "type": "string", "format": "date" },
+                "id": { "type": "integer" },
+                "grade": { "type": "float" },
+                "updated_at": { "type": "string", "format": "date" }
+            }
+        }
+    }
+}

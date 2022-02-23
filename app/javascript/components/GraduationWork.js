@@ -1,14 +1,16 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import PageNotFound from './errors/PageNotFound';
 import Spinner from './Spinner';
 import useFetch from '../services/useFetch';
 import Reviews from './Reviews';
 import ThesisDefenses from './ThesisDefenses'
+import { useAuth } from '../contexts/authContext';
 
 const GraduationWork = () => {
     const { id } = useParams('');
-
+    const { user } = useAuth();
+    
     const { 
         data: graduationWork,
         error,
@@ -38,7 +40,7 @@ const GraduationWork = () => {
                                     <h4>Final Grade:</h4>
                                         {graduationWork.thesis_defenses.map((defence) => {
                                             return (
-                                            <p>
+                                            <p key={defence.id}>
                                                 {'Autor: ' + defence.author.first_name + ' ' + defence.author.last_name + ',' }<br />
                                                 {'Grade: ' + defence.final_grade }
                                             </p>
@@ -66,9 +68,11 @@ const GraduationWork = () => {
                         <ul className="list list-inline">
                             <div className="d-flex justify-content-between">
                                 <div className="container">
-                                    {/* <% if current_employee && @graduation_work.supervisor_id == current_employee.id && !Review.exists?(graduation_work_id: @graduation_work.id, reviewer_id: current_employee.id) %>
-                                        <%= link_to 'Add review', new_graduation_work_review_path(@graduation_work), className: 'nav-link px-2 text-dark' %>
-                                    <% end %> */}
+                                    { user && user.type === 'Employee' &&
+                                        <Link to={`/graduation_works/${id}/reviews/new`} className='nav-link px-2 text-dark'>
+                                            Add review
+                                        </Link>
+                                    }
                                 </div>
                                 <div className="container">
                                     {/* <% if current_deans_worker? %>

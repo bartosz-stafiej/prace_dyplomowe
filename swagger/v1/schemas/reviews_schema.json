@@ -1,0 +1,15 @@
+{
+    "type": "object",
+    "required": [
+        "reviews"
+    ],
+    "properties": {
+        "reviews": {
+            "type": "array",
+            "minItems": 0,
+            "items": {
+            "$ref": "#/components/schemas/review_schema/properties/review"
+            }
+        }
+    }
+}

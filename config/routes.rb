@@ -18,13 +18,9 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :raports, only: %i[index new create] do
-    collection do
-      post 'generate_csv'
-    end
+  resources :graduation_works, only: %i[new edit show] do
+    resources :reviews, only: %i[new]
   end
-
-  resources :graduation_works, only: %i[new edit]
 
   draw(:api_v1)
 end

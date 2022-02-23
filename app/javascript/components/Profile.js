@@ -108,7 +108,7 @@ const Profile = () => {
                                                                         type="text"
                                                                         id="index"
                                                                         className='form-control'
-                                                                        placeholder={me.index}
+                                                                        value={me.index}
                                                                         onChange={handleChange}
                                                                         disabled="true"
                                                                     />

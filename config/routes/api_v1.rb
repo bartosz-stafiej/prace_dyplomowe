@@ -3,9 +3,12 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1 do
-      resources :graduation_works, only: %i[index show create update]
+      resources :graduation_works, only: %i[index show create update] do
+        resources :reviews, only: %i[create update]
+      end
 
       resources :stage_of_studies, only: %i[index]
+      
 
       post :login, to: 'sessions#create'
       delete :logout, to: 'sessions#destroy'

@@ -7,6 +7,7 @@ class StudentBlueprint < Blueprinter::Base
          :college_id,
          :email,
          :first_name,
+         :index,
          :last_name,
          :telephone_number,
          :type,

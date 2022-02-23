@@ -18,7 +18,7 @@ const NewGraduationWork = () => {
 
     function handleChange(e) {
         if(e.target.id === 'stage_of_study_id') {
-            setInput({...input, [e.target.id]: parseInt(e.target.value)})
+            setInput({...input, [e.target.id]: parseFloat(e.target.value).toFixed(2)})
         } else {
             setInput({...input, [e.target.id]: e.target.value})
         }
