@@ -2,21 +2,17 @@
 
 require 'rails_helper'
 
-RSpec.describe GraduationWorks::Create do
+RSpec.describe Reviews::Create do
   describe '#call' do
     let!(:graduation_work) { create(:graduation_work) }
-    let(:creator) { described_class.new(data: input) }
+    let(:creator) { described_class.new(data: input, graduation_work: graduation_work) }
     let(:result) { creator.call }
 
     let(:valid_input) do
-      supervisor = create(:employee)
-      stage_of_study = create(:stage_of_study)
+      reviewer = create(:employee)
 
-      attributes_for(:graduation_work)
-        .merge(
-          supervisor_email: supervisor.email,
-          stage_of_study_id: stage_of_study.id
-        )
+      attributes_for(:review)
+        .merge(reviewer_email: reviewer.email)
     end
 
     context 'when valid input' do
@@ -25,7 +21,7 @@ RSpec.describe GraduationWorks::Create do
       before do
         expect(described_class)
           .to receive(:new)
-          .with(data: input)
+          .with(data: input, graduation_work: graduation_work)
           .and_return(creator)
 
         expect(creator)
@@ -33,20 +29,20 @@ RSpec.describe GraduationWorks::Create do
           .and_return(result)
       end
 
-      it 'creates graduation_work' do
-        graduation_work = described_class.new(data: input).call
-        expect(graduation_work.id).not_to be_nil
+      it 'creates review' do
+        review = described_class.new(data: input, graduation_work: graduation_work).call
+        expect(review.id).not_to be_nil
       end
     end
 
     context 'when invalid input' do
-      context 'when supervisor does not exists' do
-        let(:input) { valid_input.except(:supervisor_email) }
+      context 'when reviewer does not exists' do
+        let(:input) { valid_input.except(:reviewer_email) }
 
         before do
           expect(described_class)
             .to receive(:new)
-            .with(data: input)
+            .with(data: input, graduation_work: graduation_work)
             .and_return(creator)
 
           expect(creator)
@@ -55,7 +51,8 @@ RSpec.describe GraduationWorks::Create do
         end
 
         it 'raise NotFound api error' do
-          expect { described_class.new(data: input).call }.to raise_error(Controllers::Errors::Api::NotFound)
+          expect { described_class.new(data: input, graduation_work: graduation_work).call }
+            .to raise_error(Controllers::Errors::Api::NotFound)
         end
       end
     end

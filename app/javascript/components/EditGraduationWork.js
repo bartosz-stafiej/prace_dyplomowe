@@ -67,7 +67,7 @@ const NewGraduationWork = () => {
                                                             <label className="labels">Title</label>
                                                             <input type="text" id="title" 
                                                                 className="form-control"
-                                                                placeholder={data[0].graduation_work.title}
+                                                                defaultValue={data[0].graduation_work.title}
                                                                 onChange={handleChange}
                                                             />
                                                         </div>
@@ -75,7 +75,7 @@ const NewGraduationWork = () => {
                                                             <label className="labels">Topic</label>
                                                             <input type="text" id="topic"
                                                                 className="form-control"
-                                                                placeholder={data[0].graduation_work.topic}
+                                                                defaultValue={data[0].graduation_work.topic}
                                                                 onChange={handleChange}
                                                             />
                                                         </div>
@@ -123,7 +123,7 @@ const NewGraduationWork = () => {
                                                                 <input type="text" id="supervisor_email"
                                                                     className="form-control"
                                                                     onChange={handleChange}
-                                                                    placeholder={data[0].graduation_work.supervisor.email}    
+                                                                    defaultValue={data[0].graduation_work.supervisor.email}    
                                                                 />
                                                             </div>
                                                     </div>

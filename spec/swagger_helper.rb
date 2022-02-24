@@ -60,6 +60,8 @@ RSpec.configure do |config|
           error_schema: parse_swagger_schema('error_schema'),
           graduation_work_schema: parse_swagger_schema('graduation_work_schema'),
           graduation_works_schema: parse_swagger_schema('graduation_works_schema'),
+          review_schema: parse_swagger_schema('review_schema'),
+          reviews_schema: parse_swagger_schema('reviews_schema'),
           stage_of_study_schema: parse_swagger_schema('stage_of_study_schema'),
           stage_of_studies_schema: parse_swagger_schema('stage_of_studies_schema'),
           tokens_schema: parse_swagger_schema('tokens_schema')
