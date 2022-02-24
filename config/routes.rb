@@ -19,7 +19,7 @@ Rails.application.routes.draw do
   end
 
   resources :graduation_works, only: %i[new edit show] do
-    resources :reviews, only: %i[new]
+    resources :reviews, only: %i[new edit]
   end
 
   draw(:api_v1)

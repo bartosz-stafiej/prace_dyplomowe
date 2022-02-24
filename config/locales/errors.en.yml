@@ -30,6 +30,12 @@ en:
               invalid_date: must be before present day
             reviewer_email:
               not_found: "Employee with email %{email} does not exist"
+        update:
+          rules:
+            date_of_issue:
+              invalid_date: must be before present day
+            reviewer_email:
+              not_found: "Employee with email %{email} does not exist"
 
   errors:
     api:

@@ -80,7 +80,7 @@ const GraduationWork = () => {
                                     <% end %> */}
                                 </div>
                             </div>
-                            <Reviews reviews={graduationWork.reviews}/>
+                            <Reviews reviews={graduationWork.reviews} user={user}/>
                             <br />
                             <ThesisDefenses thesis_defenses={graduationWork.thesis_defenses} />
                         </ul>

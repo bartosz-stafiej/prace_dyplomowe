@@ -64,7 +64,7 @@ const Profile = () => {
                                                                 type="text"
                                                                 id="first_name"
                                                                 className="form-control"
-                                                                placeholder={me.first_name}
+                                                                defaultValue={me.first_name}
                                                                 onChange={handleChange}
                                                             />
                                                         </div>
@@ -74,7 +74,7 @@ const Profile = () => {
                                                                 type="text"
                                                                 id="last_name"
                                                                 className="form-control"
-                                                                placeholder={me.last_name}
+                                                                defaultValue={me.last_name}
                                                                 onChange={handleChange}
                                                             />
                                                         </div>
@@ -86,7 +86,7 @@ const Profile = () => {
                                                                 type="text"
                                                                 id="email"
                                                                 className="form-control"
-                                                                placeholder={me.email}
+                                                                defaultValue={me.email}
                                                                 onChange={handleChange}
                                                             />
                                                         </div>
@@ -98,7 +98,7 @@ const Profile = () => {
                                                                         type="text"
                                                                         id="telephone_number"
                                                                         className='form-control'
-                                                                        placeholder={me.telephone_number}
+                                                                        defaultValue={me.telephone_number}
                                                                         onChange={handleChange}
                                                                     />
                                                                 </div>
@@ -122,7 +122,7 @@ const Profile = () => {
                                                                     type="text"
                                                                     id="academic_degree"
                                                                     className="form-control"
-                                                                    placeholder={me.academic_degree}
+                                                                    defaultValue={me.academic_degree}
                                                                     onChange={handleChange}
                                                                 />
                                                             </div>

@@ -1,6 +1,9 @@
 import React from "react";
+import { Link, useParams } from 'react-router-dom';
 
-const Reviews = ({reviews}) => {
+const Reviews = ({reviews, user}) => {
+    const { id } = useParams();
+
     return (
         <>
             {reviews.length > 0 &&
@@ -24,11 +27,17 @@ const Reviews = ({reviews}) => {
                         <div className="d-flex flex-row align-items-center">
                             <div className="d-flex flex-column mr-2">
                                 <div className="profile-image">
-                                    {/*<% if current_deans_worker? %>
+                                    { user && user.type === 'Employee' &&
                                         <div className="d-flex flex-column mr-2">
-                                            <div className="profile-image"><%= button_to 'Update', edit_graduation_work_review_path(@graduation_work, review), className: 'btn btn-primary mr-5', method: :get %></div>
+                                            <div className="profile-image">
+                                                <Link 
+                                                    to={`/graduation_works/${id}/reviews/${review.id}/edit`}
+                                                    className="btn btn-primary mr-5">
+                                                    Update
+                                                </Link>
+                                            </div>
                                         </div>
-                                    <% end %> */}
+                                    }
                                 </div>
                             </div>
                         </div>

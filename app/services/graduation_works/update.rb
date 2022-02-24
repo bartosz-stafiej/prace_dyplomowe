@@ -8,25 +8,21 @@ module GraduationWorks
     end
 
     def call
-      update_graduation_work(data, graduation_work)
-    end
-
-    private
-
-    def update_graduation_work(data, graduation_work)
       transaction do
         graduation_work.update(
           data.except(:supervisor_email)
         )
 
-        update_dependency(data[:supervisor_email], graduation_work) if data[:supervisor_email]
+        update_dependency if data[:supervisor_email]
 
         graduation_work
       end
     end
 
-    def update_dependency(supervisor_email, graduation_work)
-      supervisor = Employee.find_by(email: supervisor_email)
+    private
+
+    def update_dependency
+      supervisor = Employee.find_by(email: data[:supervisor_email])
 
       graduation_work.update(supervisor: supervisor)
     end

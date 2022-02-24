@@ -8,6 +8,7 @@ import Login from './Login';
 import NewGraduationWork from './NewGraduationWork'
 import EditGraduationWork from './EditGraduationWork';
 import NewReview from './NewReview';
+import EditReview from './EditReview';
 import useQuery from  '../services/useQuery'
 import { AuthProvider } from '../contexts/authContext';
 
@@ -39,6 +40,7 @@ const App = () => {
                     <Route path="/graduation_works/new" element={<NewGraduationWork />} />
                     <Route path="/graduation_works/:id/edit" element={<EditGraduationWork />} />
                     <Route path="/graduation_works/:id/reviews/new" element={<NewReview />} />
+                    <Route path="/graduation_works/:graduation_work_id/reviews/:id/edit" element={<EditReview />} />
                 </Routes>
             </main>
         </AuthProvider>
